@@ -1,0 +1,23 @@
+# OpenComputers
+*.tmp
+*.bak
+
+# Database
+data/*.db
+data/*.backup
+
+# Logs
+logs/*.log
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+
+# Backup files
+*.backup
+
