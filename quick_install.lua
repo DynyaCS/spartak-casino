@@ -50,10 +50,13 @@ local FILES = {
 local function downloadFile(url, path)
     local fullPath = INSTALL_DIR .. "/" .. path
     
-    -- Создаем директорию
-    local dir = filesystem.path(fullPath)
-    if not filesystem.exists(dir) then
-        filesystem.makeDirectory(dir)
+    -- Создаем директорию рекурсивно
+    local dir = fullPath:match("(.+)/[^/]+$")
+    if dir and not filesystem.exists(dir) then
+        local success, err = pcall(filesystem.makeDirectory, dir)
+        if not success then
+            return false, "Не удалось создать директорию: " .. tostring(err)
+        end
     end
     
     -- Загружаем файл
@@ -85,7 +88,7 @@ local function downloadFile(url, path)
     -- Сохраняем файл
     local file, err = io.open(fullPath, "w")
     if not file then
-        return false, "Не удалось создать файл: " .. tostring(err)
+        return false, "Не удалось создать файл " .. fullPath .. ": " .. tostring(err)
     end
     
     file:write(data)
